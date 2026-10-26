@@ -1,0 +1,145 @@
+[
+  {
+    "hotelId": "H012",
+    "name": "アイネイン",
+    "kind": "hotenavi",
+    "enabled": true,
+    "url": "https://www.hotenavi.com/aineinn/empty/",
+    "happyHotelId": "541259"
+  },
+  {
+    "hotelId": "H017",
+    "name": "アトランティス",
+    "kind": "happyhotel",
+    "enabled": true,
+    "happyHotelId": "670917"
+  },
+  {
+    "hotelId": "H001",
+    "name": "シエル沼津店",
+    "kind": "hotenavi",
+    "enabled": true,
+    "url": "https://www.hotenavi.com/ciel/empty"
+  },
+  {
+    "hotelId": "H008",
+    "name": "あかり",
+    "kind": "hotenavi",
+    "enabled": true,
+    "url": "https://www.hotenavi.com/akari/empty"
+  },
+  {
+    "hotelId": "H015",
+    "name": "555",
+    "kind": "hotenavi",
+    "enabled": true,
+    "url": "https://www.hotenavi.com/555-06/empty"
+  },
+  {
+    "hotelId": "H020",
+    "name": "555（沼津駅北）",
+    "kind": "hotenavi",
+    "enabled": true,
+    "url": "https://www.hotenavi.com/555-05/empty"
+  },
+  {
+    "hotelId": "H005",
+    "name": "The Hotel",
+    "kind": "hotenavi",
+    "enabled": true,
+    "url": "https://www.hotenavi.com/hth/empty"
+  },
+  {
+    "hotelId": "H022",
+    "name": "沼津イン",
+    "kind": "happyhotel",
+    "enabled": true,
+    "happyHotelId": "541265"
+  },
+  {
+    "hotelId": "H011",
+    "name": "ハイハイ",
+    "kind": "hotenavi",
+    "enabled": true,
+    "url": "https://www.hotenavi.com/hihi/empty/",
+    "happyHotelId": "670915"
+  },
+  {
+    "hotelId": "H004",
+    "name": "ソフィア",
+    "kind": "happyhotel",
+    "enabled": true,
+    "happyHotelId": "541262"
+  },
+  {
+    "hotelId": "H007",
+    "name": "Utovilla",
+    "kind": "hotenavi",
+    "enabled": true,
+    "url": "https://www.hotenavi.com/555-04/empty",
+    "happyHotelId": "670911"
+  },
+  {
+    "hotelId": "H009",
+    "name": "モーテルM",
+    "kind": "happyhotel",
+    "enabled": true,
+    "happyHotelId": "541267"
+  },
+  {
+    "hotelId": "H014",
+    "name": "ハニーポット",
+    "kind": "happyhotel",
+    "enabled": true,
+    "happyHotelId": "670896"
+  },
+  {
+    "hotelId": "H006",
+    "name": "Jump",
+    "kind": "hotenavi",
+    "enabled": true,
+    "url": "https://www.hotenavi.com/jump/empty"
+  },
+  {
+    "hotelId": "H010",
+    "name": "ラグナリゾート",
+    "kind": "pending",
+    "enabled": true,
+    "phoneSource": "https://happyhotel.jp/hotels/670898"
+  },
+  {
+    "hotelId": "H013",
+    "name": "ラペ",
+    "kind": "pending",
+    "enabled": true,
+    "phoneSource": "https://www.hotenavi.com/rape/"
+  },
+  {
+    "hotelId": "H016",
+    "name": "シティ２２",
+    "kind": "pending",
+    "enabled": true,
+    "phoneSource": "https://happyhotel.jp/hotels/670901"
+  },
+  {
+    "hotelId": "H002",
+    "name": "AI",
+    "kind": "pending",
+    "enabled": true,
+    "phoneSource": "https://happyhotel.jp/hotels/541260"
+  },
+  {
+    "hotelId": "H003",
+    "name": "AI-Next",
+    "kind": "pending",
+    "enabled": true,
+    "phoneSource": "https://happyhotel.jp/hotels/670914"
+  },
+  {
+    "hotelId": "H021",
+    "name": "Knows",
+    "kind": "hotenavi",
+    "enabled": true,
+    "url": "https://www.hotenavi.com/555-16/empty/"
+  }
+]
