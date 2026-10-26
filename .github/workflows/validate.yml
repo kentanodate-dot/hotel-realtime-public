@@ -1,0 +1,32 @@
+name: Validate hotel collector code
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/**'
+      - 'config/**'
+      - '.github/workflows/**'
+      - 'package.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate JavaScript syntax
+        run: node --check scripts/http-hotels.mjs
+      - name: Validate list of registered hotels
+        run: |
+          node -e 'const fs=require("node:fs"); const rows=JSON.parse(fs.readFileSync("config/hotels.json","utf8")); if(rows.length!==20) process.exit(1); if(rows.some(x=>!x.hotelId||!x.name)) process.exit(1); console.log("Validated",rows.length,"hotel configurations");'
+      - name: Verify no cookies committed
+        run: |
+          test ! -f .session/happyhotel.enc
+          test ! -f .env
