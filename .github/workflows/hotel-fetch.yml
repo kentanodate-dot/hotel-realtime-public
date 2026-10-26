@@ -1,0 +1,48 @@
+name: Hotel vacancy collector (public, zero-budget)
+on:
+  workflow_dispatch:
+  # Enable the schedule only after repository secrets, Cloudflare OIDC
+  # allow-list and GitHub billing budgets have been configured.
+  # schedule:
+  #   - cron: '3,13,23,33,43,53 0-20 * * *'
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: hotel-vacancy-collector
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      HH_LOGIN_ID: ${{ secrets.HH_LOGIN_ID }}
+      HH_PASSWORD: ${{ secrets.HH_PASSWORD }}
+      SESSION_CACHE_KEY: ${{ secrets.SESSION_CACHE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Restore encrypted session
+        uses: actions/cache/restore@v4
+        with:
+          path: .session/happyhotel.enc
+          key: encrypted-session-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            encrypted-session-
+      - name: Verify browser fallback binary
+        run: google-chrome --version
+      - name: Fetch all configured hotel vacancy via HTTP
+        run: node scripts/http-hotels.mjs
+      - name: Store encrypted session
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .session/happyhotel.enc
+          key: encrypted-session-${{ github.run_id }}-${{ github.run_attempt }}
