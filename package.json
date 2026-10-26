@@ -1,0 +1,13 @@
+{
+  "name": "hotel-realtime",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "test:sofia": "node scripts/http-hotels.mjs",
+    "test:browser": "node scripts/test-sofia.mjs"
+  },
+  "dependencies": {
+    "playwright": "1.64.0"
+  }
+}
