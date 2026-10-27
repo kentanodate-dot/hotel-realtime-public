@@ -29,9 +29,9 @@ jobs:
           const excerpt=t.slice(Math.max(0,i-170),Math.min(t.length,i+term.length+220)).replace(/\s+/g,' ');
           console.log('MATCH',term,n++,excerpt);}
           }
-          }
           if(u.includes('_app-')){
            const at=t.indexOf('16515:(e,t,r)=>');
            console.log('CSRF_FETCH_MODULE',at>=0?t.slice(at,at+4600):'not found');
+          }
           }
           NODE
