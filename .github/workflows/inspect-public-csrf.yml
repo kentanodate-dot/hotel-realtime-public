@@ -1,0 +1,33 @@
+name: One-time public login JavaScript diagnostic
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/inspect-public-csrf.yml'
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Inspect public JavaScript without credentials
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          const urls=[
+          'https://happyhotel.jp/_next/static/chunks/pages/_app-06e0509ce50757fa.js',
+          'https://happyhotel.jp/_next/static/chunks/232-fcd07c99657b977c.js',
+          'https://happyhotel.jp/_next/static/chunks/pages/my/login-5f631ecdca9374ff.js'];
+          const needles=['/csrf','REQUEST_CSRF_TOKEN','csrfToken','mypage_login_check.jsp','100201'];
+          for(let u of urls){
+          const r=await fetch(u,{signal:AbortSignal.timeout(15000)});const t=await r.text();
+          console.log('\nFILE',new URL(u).pathname,'HTTP',r.status,'bytes',t.length);
+          for(let term of needles){let i=-1,n=0;
+          while(n<3&&(i=t.indexOf(term,i+1))>=0){
+          const excerpt=t.slice(Math.max(0,i-170),Math.min(t.length,i+term.length+220)).replace(/\s+/g,' ');
+          console.log('MATCH',term,n++,excerpt);}
+          }
+          }
+          NODE
