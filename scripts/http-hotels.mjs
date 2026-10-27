@@ -148,12 +148,16 @@ async function githubToken(){
   if(!r.ok)throw Error('OIDC token request HTTP '+r.status);
   return (await r.json()).value;
 }
-async function sync(results) {
+async function sync(results, cookies) {
   const token=await githubToken();
-  const response=await fetch(SYNC,{method:'POST',headers:{authorization:'Bearer '+token,'content-type':'application/json'},body:JSON.stringify({results}),signal:AbortSignal.timeout(20000)});
+  const response=await fetch(SYNC,{method:'POST',headers:{authorization:'Bearer '+token,'content-type':'application/json'},body:JSON.stringify({results,cookies}),signal:AbortSignal.timeout(60000)});
   if(!response.ok)throw Error('Cloudflare sync HTTP '+response.status);
   const json=await response.json();if(!json.ok)throw Error('Cloudflare sync rejected');
-  console.log('Cloudflare sync summary:',JSON.stringify(json));
+  console.log('Cloudflare sync summary:',JSON.stringify({ok:json.ok,saved:json.saved,fallback:json.fallback,cookieTransfer:json.cookieTransfer}));
+  if(json.cookieTransfer!=='verified-and-stored') {
+    console.error('Cookie transfer was not verified by Cloudflare; HTTP-only collection is not ready');
+    process.exitCode=1;
+  }
 }
 const restored=await restore();
 let client=new CookieHTTP(restored.cookies);
@@ -213,7 +217,10 @@ for(const hotel of [...HOTENAVI_REFS,...EXTRA_HOTENAVI]){
  }
 }
 console.log('Total registry:',REGISTRY.length,'checked:',results.length,'valid:',results.filter(x=>x.ok).length);
-await sync(results);
+// Transfer only the approved HappyHotel cookie jar over authenticated HTTPS.
+// Never print the cookie payload or store it in repository files/artifacts.
+await persist(client.cookies,sessionStart);
+await sync(results,client.cookies);
 const requiredIds=new Set(REGISTRY.filter(h=>h.enabled&&h.kind!=='pending').map(h=>h.hotelId));
 const requiredFailures=results.filter(x=>requiredIds.has(x.localId)&&!x.ok);
 console.log('Validated coverage:',JSON.stringify({listed:REGISTRY.length,available:results.filter(x=>x.ok).length,
