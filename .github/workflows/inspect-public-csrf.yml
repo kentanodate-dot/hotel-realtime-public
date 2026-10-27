@@ -31,7 +31,7 @@ jobs:
           }
           if(u.includes('_app-')){
            const at=t.indexOf('16515:(e,t,r)=>');
-           console.log('CSRF_FETCH_MODULE',at>=0?t.slice(at,at+4600):'not found');
+           for(const id of ['2054','71259']){const m=t.indexOf(id+':(e,t,r)=>'); console.log('REQUEST_MODULE',id,m>=0?t.slice(m,m+4800):'not found');}
           }
           }
           NODE
