@@ -148,10 +148,9 @@ async function githubToken(){
   if(!r.ok)throw Error('OIDC token request HTTP '+r.status);
   return (await r.json()).value;
 }
-async function sync(results, cookies) {
+async function sync(results) {
   const token=await githubToken();
-  const payload=process.env.COOKIE_TRANSFER_PROBE==='1'?{results,cookies}:{results};
-  const response=await fetch(SYNC,{method:'POST',headers:{authorization:'Bearer '+token,'content-type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(20000)});
+  const response=await fetch(SYNC,{method:'POST',headers:{authorization:'Bearer '+token,'content-type':'application/json'},body:JSON.stringify({results}),signal:AbortSignal.timeout(20000)});
   if(!response.ok)throw Error('Cloudflare sync HTTP '+response.status);
   const json=await response.json();if(!json.ok)throw Error('Cloudflare sync rejected');
   console.log('Cloudflare sync summary:',JSON.stringify(json));
@@ -214,7 +213,7 @@ for(const hotel of [...HOTENAVI_REFS,...EXTRA_HOTENAVI]){
  }
 }
 console.log('Total registry:',REGISTRY.length,'checked:',results.length,'valid:',results.filter(x=>x.ok).length);
-await sync(results,client.cookies);
+await sync(results);
 const requiredIds=new Set(REGISTRY.filter(h=>h.enabled&&h.kind!=='pending').map(h=>h.hotelId));
 const requiredFailures=results.filter(x=>requiredIds.has(x.localId)&&!x.ok);
 console.log('Validated coverage:',JSON.stringify({listed:REGISTRY.length,available:results.filter(x=>x.ok).length,
