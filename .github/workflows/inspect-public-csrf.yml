@@ -30,4 +30,8 @@ jobs:
           console.log('MATCH',term,n++,excerpt);}
           }
           }
+          if(u.includes('_app-')){
+           const at=t.indexOf('16515:(e,t,r)=>');
+           console.log('CSRF_FETCH_MODULE',at>=0?t.slice(at,at+4600):'not found');
+          }
           NODE
