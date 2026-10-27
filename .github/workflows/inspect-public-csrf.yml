@@ -34,4 +34,8 @@ jobs:
            for(const id of ['2054','71259']){const m=t.indexOf(id+':(e,t,r)=>'); console.log('REQUEST_MODULE',id,m>=0?t.slice(m,m+4800):'not found');}
           }
           }
+          const cr=await fetch('https://api-proxy.happyhotel.jp/csrf',{headers:{accept:'application/json',origin:'https://happyhotel.jp',referer:'https://happyhotel.jp/my/login?srd=%2F'},signal:AbortSignal.timeout(15000)});
+          const ct=await cr.text();let cj=null;try{cj=JSON.parse(ct)}catch{};
+          const cv=cj?.results??cj;
+          console.log('CSRF_NO_BROWSER_COMPARE',JSON.stringify({http:cr.status,bytes:ct.length,success:cv?.success===true,hasToken:Boolean(cv?.csrf_token),errorCode:typeof cv?.error?.code==='number'||typeof cv?.error?.code==='string'?String(cv.error.code):null,setCookieCount:typeof cr.headers.getSetCookie==='function'?cr.headers.getSetCookie().length:0}));
           NODE
