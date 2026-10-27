@@ -1,10 +1,6 @@
 name: Hotel vacancy collector (public, zero-budget)
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/hotel-fetch.yml'
   # Enable the schedule only after repository secrets, Cloudflare OIDC
   # allow-list and GitHub billing budgets have been configured.
   # schedule:
